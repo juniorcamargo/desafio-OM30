@@ -27,32 +27,51 @@ services:
         networks:
             - laravel
 
-    # db mysql
+    # db postegress
     db:
-        image: mysql:5.7.22
-        restart: unless-stopped
+        image: postgres
+        restart: always
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
-        volumes:
-            - ./.docker/mysql/dbdata:/var/lib/mysql
+            POSTGRES_PASSWORD: example
         ports:
-            - "3388:3306"
+            - 5432:5432
+        networks:
+            - laravel
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8282:8080
         networks:
             - laravel
 
     # queue
-    queue:
-        image: especializati/laravel9-app
-        restart: unless-stopped
-        command: "php artisan queue:work"
+    # queue:
+    #     image: especializati/laravel9-app
+    #     restart: unless-stopped
+    #     command: "php artisan queue:work"
+    #     volumes:
+    #         - ./:/var/www
+    #     depends_on:
+    #         - redis
+    #         - app
+    #     networks:
+    #         - laravel
+
+    # rabbitmq
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq_management
+        restart: always
+        environment:
+            RABBITMQ_DEFAULT_USER: admin
+            RABBITMQ_DEFAULT_PASS: passw123
+        ports:
+            - 25672:25672 # (erlang) communication between the nodes and CLI tool
+            - 15672:15672 # communication with the web management API
         volumes:
-            - ./:/var/www
-        depends_on:
-            - redis
-            - app
+            - /docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
         networks:
             - laravel
 
