@@ -23,8 +23,10 @@ class CreateAddressesTable extends Migration
             $table->string('state');
             $table->string('complement');
 
-            $table->unsignedBigInteger('patients_id');
-            $table->foreign('patients_id')->references('id')->on('patients');
+            // $table->unsignedBigInteger('patient_id');
+            // $table->foreign('patient_id')->references('id')->on('patients');
+
+            $table->foreignId('patient_id')->constrained('patients');
 
             $table->timestamps();
         });

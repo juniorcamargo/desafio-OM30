@@ -21,8 +21,6 @@ class CreatePatientsTable extends Migration
             $table->string('CPF');
             $table->string('CNS');
             $table->string('photo');
-            $table->onUpdate('cascade');
-            $table->onDelete('cascade');
             $table->timestamps();
         });
     }

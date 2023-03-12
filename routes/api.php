@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(PatientController::class)->group(function () {
+    Route::get('/patient', 'index');
+    Route::get('/patient/{id}', 'show');
+    Route::post('/patient', 'store');
+    Route::put('/patient/{id}', 'update');
 });
