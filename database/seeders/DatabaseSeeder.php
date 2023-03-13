@@ -13,11 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
         \App\Models\Patient::factory()
             ->has(\App\Models\Address::factory())
-            ->count(5)
+            ->count(30)
             ->create();
     }
 }

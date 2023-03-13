@@ -22,6 +22,7 @@ class CreatePatientsTable extends Migration
             $table->string('CNS');
             $table->string('photo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
