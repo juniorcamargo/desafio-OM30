@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patient;
+use App\Http\Requests\PatientAddRequest;
+use App\Http\Requests\PatientEditRequest;
+use App\Http\Requests\PatientSearchRequest;
 use App\Services\Patient\PatientService;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -17,8 +18,6 @@ class PatientController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -27,32 +26,17 @@ class PatientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PatientAddRequest $request)
     {
-        // rever o store pois esta salvando sem o address
         $data = $request->all();
 
         return $this->patientService->store($data);
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -62,24 +46,20 @@ class PatientController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
+     * @param  \App\Http\Requests\PatientSearchRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function search(PatientSearchRequest $request)
     {
-        //
+        return Response($this->patientService->search($request));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PatientEditRequest $request, $id)
     {
         $data = $request->all();
 
@@ -87,13 +67,20 @@ class PatientController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Response($this->patientService->delete($id));
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        Response($this->patientService->restore($id));
     }
 }

@@ -29,6 +29,7 @@ class CreateAddressesTable extends Migration
             $table->foreignId('patient_id')->constrained('patients');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
