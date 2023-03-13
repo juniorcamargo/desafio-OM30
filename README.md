@@ -23,11 +23,18 @@ docker-compose up -d
 
 ---
 
-**Criando as migrations:**
+**Importante:**
+
+Para que os comandos de criação das migrations e seeds funcionem é necessário estar dentro do container
+Para entrar no container execute o comando abaixo.
 
 ```bash
 docker-compose exec app bash
 ```
+
+---
+
+**Criando as migrations:**
 
 ```bash
 php artisan make:migration
